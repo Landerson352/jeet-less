@@ -1,0 +1,52 @@
+/*  Syntax Quick Reference
+  --------------------------
+  .column(@ratios: 1, @offset: 0, @cycle: 0, @uncycle: 0, @gutter: @jeet-gutter)
+  .span(@ratio: 1, @offset: 0)
+  .shift(@ratios: 0, @col_or_span: column, @gutter: @jeet-gutter)
+  .unshift()
+  .edit()
+  .center(@max_width: 1410px, @pad: 0)
+  .stack(@pad: 0, @align: false)
+  .unstack()
+  .align(@direction: both)
+  .cf()
+*/
+* {
+  box-sizing: border-box;
+}
+.unstack-test {
+  display: inline;
+  clear: none;
+  width: auto;
+  margin-left: 0;
+  margin-right: 0;
+  text-align: left;
+}
+.unstack-test:first-child {
+  margin-left: 0;
+}
+.unstack-test:last-child {
+  margin-right: 0;
+}
+.col-test {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  padding-left: 0;
+  padding-right: 0;
+  width: 48.5%;
+  margin-left: 0%;
+  margin-right: 3%;
+}
+.col-test:before,
+.col-test:after {
+  content: '';
+  display: table;
+}
+.col-test:after {
+  clear: both;
+}
+.col-test:last-child {
+  margin-right: 0%;
+}

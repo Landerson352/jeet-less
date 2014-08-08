@@ -1,0 +1,74 @@
+@import 'reset.css';
+@import "jeet";
+
+//@jeet-gutter: 1;
+//@jeet-parent-first: false;
+//@jeet-layout-direction: RTL;
+
+.edit();
+
+html {
+	font-size: 11px;
+	text-align: center;
+	font-weight: bold;
+	color: #666;
+}
+
+h1 {
+	margin: 0;
+	padding: 15px 0;
+	margin-bottom: 15px;
+	background: none;
+	color: #555;
+}
+
+section {
+	.center(1200px);
+	margin-bottom: 45px;
+	p {
+		padding: 15px 0;
+	}
+}
+
+.center {
+	.center(1200px, @pad: 60px);
+}
+
+.column {
+	.twelfths {
+		.one {
+			.cf;
+
+			div {
+				overflow: hidden;
+				padding: 15px 0;
+				margin-bottom: 15px;
+
+				@media(min-width:480px) {
+					.col(1/4, @cycle: 4);
+				}
+
+				@media(min-width:768px) {
+					.col(1/12, @cycle: 12, @uncycle: 4, @gutter:1);
+				}
+			}
+		}
+	}
+	.flexible {
+		div {
+			padding: 15px 0;
+
+			@media(min-width:480px) {
+				&:nth-child(1) {
+					.col(1/7, @offset:1/7);
+				}
+				&:nth-child(2) {
+					.col(1/2);
+				}
+				&:nth-child(3) {
+					.col(1.5/7);
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,204 @@
+// Columns with Gutters
+.col(@ratios: 1, @offset: 0, @cycle: 0, @uncycle: 0, @gutter: @jeet-gutter) {
+	@side: <%= get_layout_direction() %>;
+	@other-side: <%= opposite_direction("'@{side}'") %>;
+	@column_widths: <%= get_column("'@{ratios}'", '@{gutter}') %>;
+	.cf();
+	float: @side;
+	clear: none;
+	text-align: inherit;
+	padding-left: 0;
+	padding-right: 0;
+	@width: <%= nth("'@{column_widths}'", 1) %>;
+	width: ~`@{width} + '%'`;
+
+	@margin_l: <%= col_margin("'left'", '@{offset}', "'@{column_widths}'") %>;
+	@margin_r: <%= col_margin("'right'", '@{offset}', "'@{column_widths}'") %>;
+	@margin_last: <%= col_margin("'last'", '@{offset}', "'@{column_widths}'") %>;
+
+	margin-@{side}: ~`@{margin_l} + '%'`;
+	margin-@{other-side}: ~`@{margin_r} + '%'`;
+
+	& when not (@uncycle = 0) {
+		&:nth-child(@{uncycle}n) {
+			margin-@{other-side}: ~`@{margin_r} + '%'`;
+			float: @side;
+		}
+
+		&:nth-child(@{uncycle}n + 1) {
+			clear: none;
+		}
+	}
+
+
+	& when not (@cycle = 0) {
+		&:nth-child(@{cycle}n) {
+			margin-@{other-side}: ~`@{margin_last} + '%'`;
+			float: @other-side;
+		}
+
+		&:nth-child(@{cycle}n + 1) {
+			clear: both;
+		}
+	}
+	& when (@cycle = 0) {
+		&:last-child {
+			margin-@{other-side}: ~`@{margin_last} + '%'`;
+		}
+	}
+}
+
+// Columns without Gutters
+.span(@ratio: 1, @offset: 0) {
+	@side: <%= get_layout_direction() %>;
+	@other-side: <%= opposite_direction("'@{side}'") %>;
+	@span_width: <%= get_span('@{ratio}') %>;
+
+	.cf();
+	float: @side;
+	clear: none;
+	padding-left: 0;
+	padding-right: 0;
+	text-align: inherit;
+	width: @span_width * 1%;
+
+	margin-@{side}: ~`Math.max(0, @{offset}) * 100`;
+	margin-@{other-side}: ~`Math.abs(@{offset}) * 100`;
+}
+
+// Source Ordering
+.shift(@ratios: 0, @col_or_span: column, @gutter: @jeet-gutter) {
+	@side: <%= get_layout_direction() %>;
+	position: relative;
+	left: <%= shift_left("'@{side}'", "'@{ratios}'", "'@{col_or_span}'") %>;
+}
+
+.unshift() {
+	position: static;
+	left: 0;
+}
+
+// Edit Mode
+.edit() {
+	* {
+		background: fade(black, 5%);
+	}
+}
+
+// Horizontal Centering Block Elements
+.center(@max_width: 1410px, @pad: 0) {
+	.cf();
+	width: auto;
+	max-width: @max_width;
+	float: none;
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+	padding-left: @pad;
+	padding-right: @pad;
+}
+
+// Uncenter Elements
+.uncenter() {
+	max-width: none;
+	margin-right: 0;
+	margin-left: 0;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+// Stacking/Unstacking Elements
+.stack(@pad: 0, @align: false) {
+	@side: <%= get_layout_direction() %>;
+	display: block;
+	clear: both;
+	float: none;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	&:first-child {
+		margin-@{side}: auto;
+	}
+	&:last-child {
+		@other-side: <%= opposite_direction("'@{side}'") %>;
+		margin-@{other-side}: auto;
+	}
+	& when not (@pad = 0) {
+		padding-left: @pad;
+		padding-right: @pad;
+	}
+	& when (@align = center), (@align = c) {
+		text-align: center;
+	}
+	& when (@align = left), (@align = l) {
+		text-align: left;
+	}
+	& when (@align = right), (@align = r) {
+		text-align: right;
+	}
+}
+.unstack() {
+	@side: <%= get_layout_direction() %>;
+	display: inline;
+	clear: none;
+	width: auto;
+	margin-left: 0;
+	margin-right: 0;
+	&:first-child {
+		margin-@{side}: 0;
+	}
+	&:last-child {
+		@other-side: <%= opposite_direction("'@{side}'") %>;
+		margin-@{other-side}: 0;
+	}
+	& when (@jeet-layout-direction = RTL) {
+		text-align: right;
+	}
+	& when not (@jeet-layout-direction = RTL) {
+		text-align: left;
+	}
+}
+
+// Horizontal/Vertical/Both Alignment - Parent container needs position relative. IE9+
+.align(@direction: both) {
+	position: absolute;
+	.jeet-prefixer(transform-style, preserve-3d);
+
+	@isHorizontal: ~`('@{direction}' == 'horizontal') || ('@{direction}' == 'h')`;
+	@isVertical: ~`('@{direction}' == 'vertical') || ('@{direction}' == 'v')`;
+
+	& when (@isHorizontal) {
+		left: 50%;
+		.jeet-prefixer(transform, translateX(-50%));
+	}
+	& when (@isVertical) {
+		top: 50%;
+		.jeet-prefixer(transform, translateY(-50%));
+	}
+	& when not (@isHorizontal) and not (@isVertical) {
+		top: 50%;
+		left: 50%;
+		.jeet-prefixer(transform, translate(-50%, -50%))
+	}
+}
+
+// Clearfix
+.cf() {
+	*zoom: 1;
+	&:before, &:after {
+		content: '';
+		display: table;
+	}
+	&:after {
+		clear: both;
+	}
+}
+
+// Define a rule with all vendor-specific prefixes
+.jeet-prefixer(@name, @arguments) {
+	-webkit-@{name}: @arguments;
+	    -ms-@{name}: @arguments;
+	   -moz-@{name}: @arguments;
+	     -o-@{name}: @arguments;
+	        @{name}: @arguments;
+}

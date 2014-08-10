@@ -45,7 +45,7 @@ section {
 				margin-bottom: 15px;
 
 				@media(min-width:480px) {
-					.col(1/4, @cycle: 4);
+					.col(1/4, @cycle: 4, @gutter:5);
 				}
 
 				@media(min-width:768px) {
@@ -63,10 +63,10 @@ section {
 					.col(1/7, @offset:1/7);
 				}
 				&:nth-child(2) {
-					.col(1/2);
+					.col(3/7);
 				}
 				&:nth-child(3) {
-					.col(1.5/7);
+					.col(2/7, @cycle: 3);
 				}
 			}
 		}

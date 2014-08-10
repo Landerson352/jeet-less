@@ -76,7 +76,7 @@ exports.shift_left = function(side, ratios, col_or_span) {
 
 	var translate = '';
 	if (side == 'right') {
-		ratios = replace_nth(ratios, 0, nth(ratios, 1) * -1); //BUG: won't 0 break this?
+		ratios = replace_nth(ratios, 0, nth(ratios, 1) * -1); /*BUG: won't 0 break this?*/
 	}
 	if (col_or_span == 'column' || col_or_span == 'col' || col_or_span == 'c') {
 		var column_widths = get_column(ratios, gutter);

@@ -7,7 +7,18 @@ var template = require('gulp-template');
 gulp.task('template', function(){
 	function prep(fnstr) {
 		return function() {
-			var argString = Array.prototype.join.call(arguments);
+			var args = [];
+			for(var i=0;i<arguments.length;i++){
+				var arg = arguments[i];
+				if(typeof(arg)=='string') {
+					if(arg.substr(0,1) == '@' && arg.substr(0,2) != '@{') {
+						arg = '@{' + arg.substr(1) + '}';
+					}
+					arg = "'"+arg+"'";
+				}
+				args.push(arg);
+			}
+			var argString = args.join();
 			return '~`('+fnstr.toString().replace(/(\r\n|\n|\r|\t)/gm,"")+')('+argString+')`';
 		};
 	}

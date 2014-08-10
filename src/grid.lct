@@ -1,20 +1,20 @@
 // Columns with Gutters
 .col(@ratios: 1, @offset: 0, @cycle: 0, @uncycle: 0, @gutter: @jeet-gutter) {
 	@side: <%= get_layout_direction() %>;
-	@other-side: <%= opposite_direction("'@{side}'") %>;
-	@column_widths: <%= get_column("'@{ratios}'", '@{gutter}') %>;
+	@other-side: <%= opposite_direction('@side') %>;
+	@column_widths: <%= get_column('@ratios', '@gutter') %>;
 	.cf();
 	float: @side;
 	clear: none;
 	text-align: inherit;
 	padding-left: 0;
 	padding-right: 0;
-	@width: <%= nth("'@{column_widths}'", 1) %>;
+	@width: <%= nth('@column_widths', 1) %>;
 	width: ~`@{width} + '%'`;
 
-	@margin_l: <%= col_margin("'left'", '@{offset}', "'@{column_widths}'") %>;
-	@margin_r: <%= col_margin("'right'", '@{offset}', "'@{column_widths}'") %>;
-	@margin_last: <%= col_margin("'last'", '@{offset}', "'@{column_widths}'") %>;
+	@margin_l: <%= col_margin('left', '@offset', '@column_widths') %>;
+	@margin_r: <%= col_margin('right', '@offset', '@column_widths') %>;
+	@margin_last: <%= col_margin('last', '@offset', '@column_widths') %>;
 
 	margin-@{side}: ~`@{margin_l} + '%'`;
 	margin-@{other-side}: ~`@{margin_r} + '%'`;
@@ -24,19 +24,16 @@
 			margin-@{other-side}: ~`@{margin_r} + '%'`;
 			float: @side;
 		}
-
 		&:nth-child(@{uncycle}n + 1) {
 			clear: none;
 		}
 	}
-
 
 	& when not (@cycle = 0) {
 		&:nth-child(@{cycle}n) {
 			margin-@{other-side}: ~`@{margin_last} + '%'`;
 			float: @other-side;
 		}
-
 		&:nth-child(@{cycle}n + 1) {
 			clear: both;
 		}
@@ -51,8 +48,8 @@
 // Columns without Gutters
 .span(@ratio: 1, @offset: 0) {
 	@side: <%= get_layout_direction() %>;
-	@other-side: <%= opposite_direction("'@{side}'") %>;
-	@span_width: <%= get_span('@{ratio}') %>;
+	@other-side: <%= opposite_direction('@side') %>;
+	@span_width: <%= get_span('@ratio') %>;
 
 	.cf();
 	float: @side;
@@ -70,7 +67,7 @@
 .shift(@ratios: 0, @col_or_span: column, @gutter: @jeet-gutter) {
 	@side: <%= get_layout_direction() %>;
 	position: relative;
-	left: <%= shift_left("'@{side}'", "'@{ratios}'", "'@{col_or_span}'") %>;
+	left: <%= shift_left('@side', '@ratios', '@col_or_span') %>;
 }
 
 .unshift() {
@@ -120,7 +117,7 @@
 		margin-@{side}: auto;
 	}
 	&:last-child {
-		@other-side: <%= opposite_direction("'@{side}'") %>;
+		@other-side: <%= opposite_direction('@side') %>;
 		margin-@{other-side}: auto;
 	}
 	& when not (@pad = 0) {
@@ -148,7 +145,7 @@
 		margin-@{side}: 0;
 	}
 	&:last-child {
-		@other-side: <%= opposite_direction("'@{side}'") %>;
+		@other-side: <%= opposite_direction('@side') %>;
 		margin-@{other-side}: 0;
 	}
 	& when (@jeet-layout-direction = RTL) {

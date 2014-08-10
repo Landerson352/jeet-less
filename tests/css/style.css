@@ -1,7 +1,7 @@
 @import 'reset.css';
 /*  Syntax Quick Reference
   --------------------------
-  .column(@ratios: 1, @offset: 0, @cycle: 0, @uncycle: 0, @gutter: @jeet-gutter)
+  .col(@ratios: 1, @offset: 0, @cycle: 0, @uncycle: 0, @gutter: @jeet-gutter)
   .span(@ratio: 1, @offset: 0)
   .shift(@ratios: 0, @col_or_span: column, @gutter: @jeet-gutter)
   .unshift()
@@ -94,9 +94,9 @@ section p {
     text-align: inherit;
     padding-left: 0;
     padding-right: 0;
-    width: 22.75%;
+    width: 21.25%;
     margin-left: 0%;
-    margin-right: 3%;
+    margin-right: 5%;
   }
   .column .twelfths .one div:before,
   .column .twelfths .one div:after {
@@ -182,7 +182,7 @@ section p {
     text-align: inherit;
     padding-left: 0;
     padding-right: 0;
-    width: 48.5%;
+    width: 41.14285714285714%;
     margin-left: 0%;
     margin-right: 3%;
   }
@@ -204,7 +204,7 @@ section p {
     text-align: inherit;
     padding-left: 0;
     padding-right: 0;
-    width: 19.07142857142857%;
+    width: 26.428571428571427%;
     margin-left: 0%;
     margin-right: 3%;
   }
@@ -216,7 +216,11 @@ section p {
   .column .flexible div:nth-child(3):after {
     clear: both;
   }
-  .column .flexible div:nth-child(3):last-child {
+  .column .flexible div:nth-child(3):nth-child( 3n) {
     margin-right: 0%;
+    float: right;
+  }
+  .column .flexible div:nth-child(3):nth-child( 3n + 1) {
+    clear: both;
   }
 }
